@@ -19,7 +19,7 @@ function crearImagen (id){
     var imagen = document.createElement("img"); 
     imagen.src = imagenes [getRandomInt(0,3)];
     imagen.id = id;
-    console.log (imagen.id);
+   // console.log (imagen.id);
     return imagen; 
 }
 
@@ -52,7 +52,6 @@ function columnasRelleno(columna, imagen){
 
 
 
-
 function rellenarColumna(columna){
     for (var i= 0; i < 6; i++) {
         var imagen = crearImagen(i.toString()+columna); 
@@ -61,16 +60,53 @@ function rellenarColumna(columna){
         $('#'+imagen.id).draggable({
             containment: '.panel-tablero', 
             revert : true,
+            
             revertDuration: 1000
         });
-        
-        $('#'+imagen.id).droppable({
-            drop: function(){
 
-            }
-        });
+    
+        
+       
 
     }
+}
+
+var check =  false ;
+function cronometro(valor, seg, min){
+    var intervalo = setInterval(function(){
+       if (seg == 0){
+           seg = 59;
+           min --;
+       }else{
+           seg --;
+       }
+       if (min == 0 && seg == 0){
+           check = true; 
+           $('.panel-tablero').fadeOut(1000);
+           $('.main-titulo').text('Juego Terminado');
+           $('.score').hide(500);
+           $('.score').show(2000);
+           $('.buttons').hide(500);
+           $('.buttons').show(2000);
+           $('.moves').hide(500);
+           $('.moves').show(2000);
+           $('.time').hide(1000);
+           $('.moves').animate({
+               width:'700px'
+           },1000)
+           $('.score').animate({
+            width:'700px'
+        },1000)
+       }
+       if (seg <10){
+        valor = min.toString() + ':'+'0' + seg.toString();
+       }else {
+        valor = min.toString() + ':' + seg.toString(); 
+         }
+        $('#timer').text(valor);
+    },1000);
+   
+
 }
 
 function rellenarTablero(){
@@ -99,5 +135,18 @@ $(document).ready(function(){
     $('.panel-tablero').slideDown(1500, function(){
         
     });
+    $('.btn-reinicio').click(function(){   
+        cronometro("", 5,0);
+        
+        if ($(this).html() == 'Reiniciar'){
+            location.reload(true);
+        }
+        $(this).html('Reiniciar');
+    });
+
+    
+        
+  
+        
     
 });
