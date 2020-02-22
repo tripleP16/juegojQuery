@@ -80,6 +80,8 @@ function imprimirMovimiento(){
     $('#movimientos-text').text(movimientos);
 }
 
+
+
 function cambio (id){
     var cambiazo = $('#'+ seleccionada).attr('src');
     var cambiazo2 = $('#'+ id).attr('src');
