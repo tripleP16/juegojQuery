@@ -92,6 +92,109 @@ function cambio (id){
 
 }
 
+function contadorderecha (derecha, seleccion, j){
+    var i = derecha;
+    var contador = 0;
+    var arreglo = [];
+    while (i<7){
+        if (seleccion == tablero[i][j].src){
+            arreglo.push(i);
+            contador ++;
+        }else {
+            break;
+        }
+
+        i ++;
+    }
+    if (contador >= 3){
+        for (var k = 0 ; k< arreglo.length ; k++){
+            $('#'+ tablero[arreglo[k]][j].id).attr('src', "");
+            if (j!=0){
+            var cambiazo = tablero[arreglo[k]][j-1].src;
+            $('#'+ tablero[arreglo[k]][j].id).attr('src', cambiazo);
+            }
+        }
+    }
+}
+function contadorizquierda(izquierda, seleccion, j){
+    var i = izquierda
+    var contador = 0;
+    var arreglo = [];
+    while (i>0){
+        if (seleccion == tablero[i][j].src){
+            arreglo.push(tablero[i][j].id);
+            contador ++;
+        }else {
+            break;
+        }
+
+        i --;
+    }
+
+    if (contador >= 3){
+        for (var k = 0 ; k< arreglo.length ; k++){
+            $('#'+arreglo[k]).fadeOut(2000);
+        }
+    }
+}
+
+function contadorarriba(arriba, seleccion, i){
+    var j = arriba; 
+    var contador = 0; 
+    while (j>0){
+        if (seleccion == tablero[i][j].src){
+            console.log(tablero[i][j].id);
+            contador ++;
+        }else {
+            break;
+        }
+
+        j --;
+
+    }
+
+    if (contador < 2){
+        return 0;
+    }else {
+        return contador;
+    }
+}
+
+function contadorabajo(abajo, seleccion, i){
+    var j = abajo; 
+    var contador = 0; 
+    while (j>7){
+        if (seleccion == tablero[i][j].src){
+            console.log(tablero[i][j].id);
+            contador ++;
+        }else {
+            break;
+        }
+
+        j ++;
+
+    }
+
+    if (contador < 2){
+        return 0;
+    }else {
+        return contador;
+    }
+}
+
+function match (){
+    for (var i = 0; i<7; i ++){
+        for ( var j =0 ; j <7; j++){
+            var seleccion = tablero[i][j].src;
+                contadorderecha(i,seleccion,j);
+                //contadorizquierda(i,seleccion,j);
+            
+            }
+            
+        }
+}
+
+
 function activarMovimiento(){
     
     for (var i = 0; i<7; i++){
@@ -101,6 +204,8 @@ function activarMovimiento(){
                 accept: aceptar,
                 drop: function(event, ui){
                     cambio($(this).attr('id'));
+                    match();
+                    match();
                 }
             });
 
